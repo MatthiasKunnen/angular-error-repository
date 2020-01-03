@@ -1,6 +1,6 @@
 {
     "name": "angular-error-repository",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Manage angular form errors",
     "author": {
         "email": "matthias.kunnen@gmail.com",

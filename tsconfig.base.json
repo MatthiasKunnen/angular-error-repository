@@ -1,0 +1,28 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "declaration": true,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "outDir": "./lib",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "dom",
+            "es5",
+            "es2015",
+            "es2016",
+            "es2017"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

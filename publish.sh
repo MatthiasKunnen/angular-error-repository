@@ -59,5 +59,6 @@ select version_type in "patch" "minor" "major"; do
 
     read -p "Ready to build and publish?; [Enter] to continue";
     npm publish || exit "$?"
+    git push --follow-tags
     break
 done

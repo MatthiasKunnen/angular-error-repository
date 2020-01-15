@@ -11,13 +11,16 @@ export interface ErrorInterface {
     message: string | null;
 }
 
-export interface ErrorMessageInput<T = any> {
+export interface ErrorMessageInput<Error = any> {
     control: AbstractControl;
-    error: T;
+    error: Error;
     value: string | null;
 }
 
-export type ErrorMessage<T = any> = (err: ErrorMessageInput<T>) => string | null;
+export type ErrorMessage<Error = any, Provided = any> = (
+    err: ErrorMessageInput<Error>,
+    provided: Provided,
+) => string | null;
 
 export type PathType = Array<string | number> | string;
 
@@ -47,6 +50,12 @@ export class ErrorRepository {
 
     static readonly errorMessages: {[key: string]: ErrorMessage} = {
     };
+
+    /**
+     * This property will be provided to all error messages. Use it to e.g. pass a translator
+     * instance.
+     */
+    static readonly provided: any;
 
     /**
      * @param {FormGroup} form The form used to find fields in.
@@ -93,7 +102,7 @@ export class ErrorRepository {
                     control: control,
                     error: error,
                     value: control.value,
-                }),
+                }, ErrorRepository.provided),
             }));
     }
 

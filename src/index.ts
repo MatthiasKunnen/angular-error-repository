@@ -55,7 +55,7 @@ export class ErrorRepository {
      * This property will be provided to all error messages. Use it to e.g. pass a translator
      * instance.
      */
-    static readonly provided: any;
+    static provided: any;
 
     /**
      * @param {FormGroup} form The form used to find fields in.

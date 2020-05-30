@@ -175,7 +175,7 @@ export class ErrorRepository {
             return false;
         }
 
-        const errors = control.errors !== null ? Object.keys(control.errors) : [];
+        const errors = control.errors === null ? [] : Object.keys(control.errors);
 
         return errors.includes(errorCode);
     }
@@ -193,7 +193,7 @@ export class ErrorRepository {
             return false;
         }
 
-        const errors = control.errors !== null ? Object.keys(control.errors) : [];
+        const errors = control.errors === null ? [] : Object.keys(control.errors);
 
         return errors.length > 0;
     }

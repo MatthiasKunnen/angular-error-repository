@@ -8,7 +8,7 @@ import {
 export interface ErrorInterface {
     error: any;
     code: string;
-    message: string | null;
+    message: string;
 }
 
 export interface ErrorMessageInput<Error = any> {
@@ -20,7 +20,7 @@ export interface ErrorMessageInput<Error = any> {
 export type ErrorMessage<Error = any, Provided = any> = (
     err: ErrorMessageInput<Error>,
     provided: Provided,
-) => string | null;
+) => string;
 
 export type PathType = Array<string | number> | string;
 

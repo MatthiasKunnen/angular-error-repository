@@ -16,7 +16,7 @@
         "clean:lib": "rimraf ./lib",
         "compile": "tsc --build ./tsconfig/tsconfig.cjs.json ./tsconfig/tsconfig.esm5.json ./tsconfig/tsconfig.esm2015.json",
         "lint": "eslint \"src/**/*.ts\"",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "yarn run build"
     },
     "dependencies": {
         "@angular/forms": ">2.0.0"

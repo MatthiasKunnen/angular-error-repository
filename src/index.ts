@@ -1,6 +1,6 @@
 import {
     AbstractControl,
-    FormArray,
+    FormArray, FormControl,
     FormGroup,
     ValidationErrors,
 } from '@angular/forms';
@@ -23,6 +23,21 @@ export type ErrorMessage<Error = any, Provided = any> = (
 ) => string;
 
 export type PathType = Array<string | number> | string;
+
+export interface ControlError<Children> {
+    children: Children;
+    errors: ValidationErrors | null;
+}
+
+export type FormControlError = ControlError<null>;
+export type FormArrayErrors = ControlError<Array<AbstractControlError>>;
+export type FormGroupErrors = ControlError<{[k: string]: AbstractControlError}>;
+
+export type AbstractControlError =
+    | FormControlError
+    | FormArrayErrors
+    | FormGroupErrors
+;
 
 /**
  * This repository stores and allows usage of generic error messages.
@@ -106,6 +121,46 @@ export class ErrorRepository {
             }));
     }
 
+    /**
+     * Goes down the controls hierarchy and creates an object consisting of the control and its
+     * descendants paired with their errors.
+     */
+    static getErrorValuesRecursive(control: FormControl): ControlError<null>;
+    static getErrorValuesRecursive(control: FormArray): FormArrayErrors;
+    static getErrorValuesRecursive(control: FormGroup): FormGroupErrors;
+    static getErrorValuesRecursive(control: AbstractControl): AbstractControlError;
+    static getErrorValuesRecursive(control: AbstractControl): AbstractControlError {
+        if (control instanceof FormControl) {
+            return {
+                children: null,
+                errors: control.errors,
+            };
+        } else if (control instanceof FormArray) {
+            return {
+                errors: control.errors,
+                children: control.controls.map(c => this.getErrorValuesRecursive(c)),
+            };
+        } else if (control instanceof FormGroup) {
+            return {
+                errors: control.errors,
+                children: Object.entries(control.controls).reduce((acc, [name, c]) => {
+                    acc[name] = {
+                        children: this.getErrorValuesRecursive(c),
+                        errors: c.errors,
+                    };
+
+                    return acc;
+                }, {}),
+            };
+        } else {
+            console.warn('Cannot descend into unknown control', control);
+            return {
+                children: null,
+                errors: control.errors,
+            };
+        }
+    }
+
     static removeErrors(errorNames: Array<string>, ...controls: Array<AbstractControl>): void {
         controls.forEach(control => {
             const errors = control.errors;
@@ -159,6 +214,14 @@ export class ErrorRepository {
         }
 
         return ErrorRepository.getErrors(field, blacklist);
+    }
+
+    /**
+     * Goes down the controls hierarchy and creates an object consisting of the control and its
+     * descendants paired with their errors.
+     */
+    getErrorValuesRecursive(): FormGroupErrors {
+        return ErrorRepository.getErrorValuesRecursive(this.form);
     }
 
     /**

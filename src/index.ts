@@ -2,6 +2,8 @@ import {
     AbstractControl,
     FormArray,
     FormGroup,
+    UntypedFormArray,
+    UntypedFormGroup,
     ValidationErrors,
 } from '@angular/forms';
 
@@ -125,9 +127,9 @@ export class ErrorRepository {
         controls.forEach(control => {
             output.push(control);
 
-            if (control instanceof FormGroup) {
+            if (control instanceof FormGroup || control instanceof UntypedFormGroup) {
                 output.push(...this.getAllControls(Object.values(control.controls)));
-            } else if (control instanceof FormArray) {
+            } else if (control instanceof FormArray || control instanceof UntypedFormArray) {
                 output.push(...this.getAllControls(control.controls));
             }
         });

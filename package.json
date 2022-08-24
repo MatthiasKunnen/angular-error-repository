@@ -22,7 +22,7 @@
         "@angular/forms": ">14.0.0"
     },
     "devDependencies": {
-        "@matthiaskunnen/eslint-config-typescript": "^2.1.2",
+        "@matthiaskunnen/eslint-config-typescript": "^4.0.0",
         "husky": "^4.2.5",
         "lint-staged": "^10.2.7",
         "npm-run-all": "^4.1.3",

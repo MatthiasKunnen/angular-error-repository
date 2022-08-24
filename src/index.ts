@@ -50,7 +50,7 @@ export type PathType = Array<string | number> | string;
  */
 export class ErrorRepository {
 
-    static readonly errorMessages: {[key: string]: ErrorMessage} = {
+    static readonly errorMessages: Record<string, ErrorMessage> = {
     };
 
     /**
@@ -115,6 +115,7 @@ export class ErrorRepository {
                 return;
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             errorNames.forEach(name => delete errors[name]);
 
             control.setErrors(errors);
